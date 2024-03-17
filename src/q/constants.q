@@ -1,0 +1,2 @@
+PI:acos -1;
+DEG_TO_RAD:PI%180;

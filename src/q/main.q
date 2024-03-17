@@ -1,36 +1,56 @@
+system"l constants.q";
 system"l colour.q";
+system"l raycast.q";
 
-CHAR_HEIGHT:20;
-CHAR_WIDTH:60;
+DEBUG_NO_CLS:0b;
 
-CHARS:" @#%+*.` ";
+CHAR_HEIGHT:30;
+CHAR_WIDTH:80;
+
+CHARS:" @#%o*+,.";
+VISIBLE_DISTANCES:`float$-1,0.5*-1 _ til count CHARS;
 
 FOV:60;
 
+posX:1;
+posY:1;
+
+rotation:45*DEG_TO_RAD;
+
+rotationSpeed:15*DEG_TO_RAD;
+moveSpeed:0.1;
+
+grid:(
+  1 1 1 1 1;
+  1 0 0 0 1;
+  1 0 1 0 1;
+  1 0 0 0 1;
+  1 1 1 0 1;
+  1 0 0 0 1;
+  1 0 0 1 1;
+  1 0 1 1 1;
+  1 1 1 1 1
+ );
+
+playing:1b;
+
 yxList:flip cross[til CHAR_HEIGHT;til CHAR_WIDTH]
 
-frameData:(
-  [
-    x:last yxList;
-    y:first yxList
-  ]
-  distance:#[CHAR_WIDTH*CHAR_HEIGHT;`float$0];
-  colour:#[CHAR_WIDTH*CHAR_HEIGHT;`]
- );
-
-frameData:frameData lj (
-  [
-    x:0 10 11 12 59;
-    y:0 10 10 12 19
-  ]
-  distance:`float$4 1 2 3 5;
-  colour:`green`red`white`blue`yellow
- );
-
 DISTANCE_CHAR_MAP:([]
-  distance:`float$til count CHARS;
+  distance:VISIBLE_DISTANCES;
   character:CHARS
  );
+
+resetFrameData:{[]
+  `frameData set (
+    [
+      x:last yxList;
+      y:first yxList
+    ]
+    distance:#[CHAR_WIDTH*CHAR_HEIGHT;`float$-100];
+    colour:#[CHAR_WIDTH*CHAR_HEIGHT;`]
+  );
+ };
 
 draw:{[frameData]
   frameData:aj[`distance;frameData;DISTANCE_CHAR_MAP];
@@ -47,9 +67,35 @@ draw:{[frameData]
 
   frameData:update formattedChar:(,')[COLOUR_CODES colour;character] from frameData;  // Apply colours
 
-  -1 raze exec formattedChar from `y`x xasc aj[`distance;frameData;DISTANCE_CHAR_MAP];
+  .common.cls[];
+  -1 .common.centreLvl raze exec formattedChar from `y`x xasc aj[`distance;frameData;DISTANCE_CHAR_MAP];
  };
 
-system"echo";
+readInput:{[]
+  input:first first system"bash -c 'read -n 1 x;echo $x'";
 
-draw[frameData];
+  $[
+    input~"q";exit 0;
+    input in "ws";tryMove[input~"w"];
+    input in "ad";`rotation set rotation+$[input~"a";-1;1]*rotationSpeed;
+    ()
+  ];
+ };
+
+tryMove:{[goForward]
+  dX:$[goForward;1;-1]*moveSpeed*cos rotation;
+  dY:$[goForward;1;-1]*moveSpeed*sin rotation;
+  
+  if[not grid[`long$posY+dY;`long$posX+dX];
+    `posX set posX+dX;
+    `posY set posY+dY;
+  ];
+ };
+
+while[playing;
+  resetFrameData[];
+  raycast frameData;
+  draw[frameData];
+  .Q.gc[];
+  readInput[];
+ ];
