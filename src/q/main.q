@@ -7,8 +7,8 @@ DEBUG_NO_CLS:0b;
 CHAR_HEIGHT:30;
 CHAR_WIDTH:80;
 
-CHARS:" @#%o*+,.";
-VISIBLE_DISTANCES:`float$-1,0.5*-1 _ til count CHARS;
+CHARS:" @#%Oo*+,.";
+VISIBLE_DISTANCES:-1,0.1+0.2*til -1+count CHARS;
 
 FOV:60;
 
@@ -25,7 +25,7 @@ grid:(
   1 0 0 0 1;
   1 0 1 0 1;
   1 0 0 0 1;
-  1 1 1 0 1;
+  1 0 1 0 1;
   1 0 0 0 1;
   1 0 0 1 1;
   1 0 1 1 1;
