@@ -97,5 +97,6 @@ while[playing;
   raycast frameData;
   draw[frameData];
   .Q.gc[];
+  1"Quit [Q], Forward/Back/Left/Right [W/S/A/D] > ";
   readInput[];
  ];
