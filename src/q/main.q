@@ -7,8 +7,7 @@ DEBUG_NO_CLS:0b;
 CHAR_HEIGHT:30;
 CHAR_WIDTH:80;
 
-CHARS:" @#%Oo*+,.";
-VISIBLE_DISTANCES:-1,0.1+0.2*til -1+count CHARS;
+WALL_CHAR:"@";
 
 FOV:60;
 
@@ -37,8 +36,8 @@ playing:1b;
 yxList:flip cross[til CHAR_HEIGHT;til CHAR_WIDTH]
 
 DISTANCE_CHAR_MAP:([]
-  distance:VISIBLE_DISTANCES;
-  character:CHARS
+  distance:-1,0.1+0.15*til count GREYSCALE_CODES;
+  formattedChar:enlist[enlist" "],colour256'[;WALL_CHAR]each reverse GREYSCALE_CODES
  );
 
 resetFrameData:{[]
@@ -47,8 +46,7 @@ resetFrameData:{[]
       x:last yxList;
       y:first yxList
     ]
-    distance:#[CHAR_WIDTH*CHAR_HEIGHT;`float$-100];
-    colour:#[CHAR_WIDTH*CHAR_HEIGHT;`]
+    distance:#[CHAR_WIDTH*CHAR_HEIGHT;`float$-100]
   );
  };
 
@@ -61,14 +59,13 @@ draw:{[frameData]
       y:til CHAR_HEIGHT
     ]
     distance:CHAR_HEIGHT#`float$-1;
-    colour:(-1 _ CHAR_HEIGHT#`),`default;
-    character:(-1 _ CHAR_HEIGHT#"\n")," "
+    formattedChar:(-1 _ CHAR_HEIGHT#enlist "\n"),enlist " "
   );
 
-  frameData:update formattedChar:(,')[COLOUR_CODES colour;character] from frameData;  // Apply colours
+  lvl:.utility.centreLvl raze exec formattedChar from `y`x xasc frameData;
 
-  .common.cls[];
-  -1 .common.centreLvl raze exec formattedChar from `y`x xasc aj[`distance;frameData;DISTANCE_CHAR_MAP];
+  .utility.cls[];
+  -1 lvl;
  };
 
 readInput:{[]
@@ -92,11 +89,13 @@ tryMove:{[goForward]
   ];
  };
 
+-1"\033[48;5;16m";  // Setting background colour to black
+
 while[playing;
   resetFrameData[];
-  raycast frameData;
-  draw[frameData];
+  raycast[];
+  draw frameData;
   .Q.gc[];
-  1"Quit [Q], Forward/Back/Left/Right [W/S/A/D] > ";
+  1 .utility.centreLvl"Quit [Q], Forward/Back/Left/Right [W/S/A/D] > ";
   readInput[];
  ];
