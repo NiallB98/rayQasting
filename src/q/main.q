@@ -2,14 +2,8 @@ system"l constants.q";
 system"l colour.q";
 system"l raycast.q";
 
+
 DEBUG_NO_CLS:0b;
-
-CHAR_HEIGHT:30;
-CHAR_WIDTH:80;
-
-WALL_CHAR:"@";
-
-FOV:60;
 
 posX:1;
 posY:1;
@@ -35,9 +29,14 @@ playing:1b;
 
 yxList:flip cross[til CHAR_HEIGHT;til CHAR_WIDTH]
 
-DISTANCE_CHAR_MAP:([]
-  distance:-1,0.1+0.15*til count GREYSCALE_CODES;
-  formattedChar:enlist[enlist" "],colour256'[;WALL_CHAR]each reverse GREYSCALE_CODES
+
+getDistanceStep:{[index]
+  :VIEW_DISTANCE-VIEW_DISTANCE*cos 0.5*PI*xexp[index%255;0.8];
+ };
+
+DISTANCE_BRIGHTNESS_MAP:([]
+  distance:0N!-1,getDistanceStep each til 256;
+  brightness:0,reverse til 256
  );
 
 resetFrameData:{[]
@@ -51,7 +50,9 @@ resetFrameData:{[]
  };
 
 draw:{[frameData]
-  frameData:aj[`distance;frameData;DISTANCE_CHAR_MAP];
+  frameData:aj[`distance;frameData;DISTANCE_BRIGHTNESS_MAP];
+
+  frameData:update formattedChar:colourGreyscale\:[brightness;WALL_CHAR] from frameData;
 
   frameData:frameData uj (
     [

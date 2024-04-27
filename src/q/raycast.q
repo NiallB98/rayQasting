@@ -15,8 +15,7 @@ raycast:{[]
       if[grid[`long$posY+incrementY*n;`long$posX+incrementX*n];
         dist:RAY_INCREMENT*n;
         halfWallHeight:`long$0.5*floor CHAR_HEIGHT* .utility.clip[1%dist;0;1];
-        `frameData set update distance:dist,
-                              colour:`default
+        `frameData set update distance:dist
                        from frameData
                        where x=columnX,
                              y<halfWallHeight+CHAR_HEIGHT%2,

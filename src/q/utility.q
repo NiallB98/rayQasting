@@ -14,3 +14,5 @@
 
   :"\n" sv ,[spacesCount#" "]each splitLvl;
  };
+
+.utility.round:{floor 0.5+x};
