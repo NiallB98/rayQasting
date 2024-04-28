@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A demonstration of using [Ray casting](https://en.wikipedia.org/wiki/Ray_casting) to render an explorable 3D space only using coloured characters for the visuals, in [KX](https://kx.com/)'s programming language Q.
+A demonstration of using [ray casting](https://en.wikipedia.org/wiki/Ray_casting) to render an explorable 3D space only using coloured characters for the visuals, in [KX](https://kx.com/)'s programming language Q.
 
 ## Requirements
 
