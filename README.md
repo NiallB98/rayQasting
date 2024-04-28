@@ -10,6 +10,8 @@ A demonstration of using [ray casting](https://en.wikipedia.org/wiki/Ray_casting
 - `q/kdb+` (Tested in version 4.0)
 - The Linux command `tput`
 
+**Note:** version 1.0.0's method of registering input without needing to press the `Enter` key may not work in some terminals, it is planned to change to a simpler, more reliable method in further updates
+
 ## Controls
 
 - `W`/`S`: Move Forward/Back
