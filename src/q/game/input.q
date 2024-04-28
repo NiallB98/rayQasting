@@ -1,5 +1,5 @@
 system"l constants.q";
-system"l exitGame.q";
+system"l game/exitGame.q";
 
 
 .input.read:{[]

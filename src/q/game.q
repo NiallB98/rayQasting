@@ -1,19 +1,21 @@
 system"l constants.q";
 system"l utility.q";
-system"l draw.q";
-system"l input.q";
+system"l game/draw.q";
+system"l game/input.q";
 
 
 .game.grid:(
-  1 1 1 1 1;
-  1 0 0 0 1;
-  1 0 1 0 1;
-  1 0 0 0 1;
-  1 0 1 0 1;
-  1 0 0 0 1;
-  1 0 0 1 1;
-  1 0 1 1 1;
-  1 1 1 1 1
+  1 1 1 1 1 1 1;
+  1 0 0 0 0 0 1;
+  1 0 1 0 1 0 1;
+  1 0 0 0 0 0 1;
+  1 0 1 0 1 0 1;
+  1 0 0 0 1 0 1;
+  1 0 0 0 1 0 1;
+  1 0 1 0 0 0 1;
+  1 0 1 1 1 0 1;
+  1 0 0 0 0 0 1;
+  1 1 1 1 1 1 1
  );
 
 .game.posX:1;

@@ -1,7 +1,7 @@
 system"l constants.q";
-system"l draw/utility.q";
-system"l raycast.q";
-system"l colour.q";
+system"l game/draw/utility.q";
+system"l game/draw/raycast.q";
+system"l game/draw/colour.q";
 
 
 DISTANCE_BRIGHTNESS_MAP:([]
